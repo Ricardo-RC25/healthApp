@@ -26,17 +26,26 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          headerShown: false,
+          headerShown: true, // Habilita el encabezado para todas las pantallas
+          headerStyle: {
+            backgroundColor: '#36a9b4',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
         }}>
         {screens.map(screen => (
           <Tabs.Screen
             key={screen}
             name={screen}
             options={{
-              href: null
+              title: screen.replace('(screens)/', '').replace('Screen', ''),
+              href: null // Título dinámico basado en el nombre del screen
             }}
           />
         ))}
+
         <Tabs.Screen
           name="home"
           options={{
@@ -46,6 +55,7 @@ export default function TabLayout() {
             ),
           }}
         />
+
         <Tabs.Screen
           name="sport"
           options={{
@@ -55,6 +65,7 @@ export default function TabLayout() {
             ),
           }}
         />
+
         <Tabs.Screen
           name="health"
           options={{
@@ -64,6 +75,7 @@ export default function TabLayout() {
             ),
           }}
         />
+
         <Tabs.Screen
           name="profile"
           options={{
@@ -75,6 +87,5 @@ export default function TabLayout() {
         />
       </Tabs>
     </>
-    
   );
 }
