@@ -26,7 +26,7 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          headerShown: true, // Habilita el encabezado para todas las pantallas :)
+          headerShown: true, // Habilita el encabezado para todas las pantallas
           headerStyle: {
             backgroundColor: '#36a9b4',
           },

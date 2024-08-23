@@ -1,11 +1,9 @@
 import React, { useRef } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Video } from 'expo-av';
 import { Link } from 'expo-router';
 
 export default function MainScreen() {
-  const navigation = useNavigation();
   const video = useRef(null);
 
   const onPlaybackStatusUpdate = (status) => {
