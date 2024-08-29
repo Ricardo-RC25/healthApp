@@ -5,27 +5,16 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  const screens = [
-    "(screens)/StepsScreen",
-    "(screens)/ECGScreen",
-    "(screens)/SleepScreen",
-    "(screens)/HeartRateScreen",
-    "(screens)/BloodPressureScreen",
-    "(screens)/BloodOxygenScreen",
-    "(screens)/BreathingFrequencyScreen",
-    "(screens)/TemperatureScreen",
-    "(screens)/ExamScreen",
-  ];
 
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#36a9b4" />
       <Tabs
         screenOptions={{
-// Color cuando la pestaña está inactiva
           tabBarStyle: {
             backgroundColor: '#ffffff', // Color de fondo de la barra de pestañas
             borderTopColor: '#ddd', // Color del borde superior
@@ -34,19 +23,7 @@ export default function TabLayout() {
             paddingBottom: 7,
             paddingTop: 7,
           },
-          headerShown: true, // Habilita el encabezado para todas las pantallas
-          headerStyle: {
-            backgroundColor: '#3cbccc',
-            height: 70, // Aumenta la altura del header
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 18, // Ajusta el tamaño de la fuente según prefieras
-            lineHeight: 22, // Opcional: Asegúrate de que sea coherente con el fontSize o elimínalo
-            paddingBottom: 10, // Centra verticalmente el texto
-          },
-          headerTitleAlign: 'center',
+          headerShown: false, // Habilita el encabezado para todas las pantallas
           transitionSpec: {
             open: {
               animation: 'timing',
@@ -64,24 +41,6 @@ export default function TabLayout() {
             },
           },
         }}>
-        {screens.map(screen => (
-          <Tabs.Screen
-            key={screen}
-            name={screen}
-            options={{
-              title: screen.replace('(screens)/', '').replace('Screen', ''),
-              href: null, // Título dinámico basado en el nombre del screen
-              headerLeft: () => (
-                <TouchableOpacity
-                  style={{ paddingLeft: 15, paddingBottom: 10 }}
-                  onPress={() => router.back("/home")}
-                >
-                  <TabBarIcon name="arrow-back"  color="white"/>
-                </TouchableOpacity>
-              ),
-            }}
-          />
-        ))}
 
         <Tabs.Screen
           name="home"
