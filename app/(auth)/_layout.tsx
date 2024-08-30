@@ -9,32 +9,26 @@ export default function MainLayout() {
         >
 
             <Stack.Screen 
-                name="(tabs)" 
+                name="register" 
                 options={
                     {
                         title:"Registro",
                         headerTitleAlign:'center',
+                        headerShown:true
                     }
                 } 
             />
             <Stack.Screen 
-                name="(main)" 
+                name="validation" 
                 options={
                     {
-                        title:"Registro",
+                        title:"Validacion",
                         headerTitleAlign:'center',
+                        headerShown:true
                     }
                 } 
             />
-            <Stack.Screen 
-                name="(auth)" 
-                options={
-                    {
-                        title:"Verificacion",
-                        headerTitleAlign:'center',
-                    }
-                } 
-            />
+
         </Stack>
     )
 }

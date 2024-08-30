@@ -26,6 +26,7 @@ export default function HomeLayout() {
               name="index"
               options={{
                 title: "Sport",
+                headerLeft: () => null,
               }}
             />
         </Stack>

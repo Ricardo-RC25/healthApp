@@ -49,7 +49,7 @@ export default function TabLayout() {
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
             ),
-
+            headerLeft: () => null,
           }}
         />
 
@@ -82,6 +82,7 @@ export default function TabLayout() {
             ),
           }}
         />
+
       </Tabs>
     </>
   );

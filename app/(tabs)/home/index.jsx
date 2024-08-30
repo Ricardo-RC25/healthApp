@@ -7,45 +7,45 @@ export default function HomeScreen() {
 
 
   const navigateToStepsScreen = () => {
-    router.navigate('home/StepsScreen');
+    router.navigate('StepsScreen');
   };
 
   const navigateToClassificationScreen = () => {
-    router.navigate('home/ClassificationScreen');
+    router.navigate('ClassificationScreen');
   };
   const navigateToBoardScreen = () => {
-    router.navigate('home/BoardScreen');
+    router.navigate('BoardScreen');
   };
 
   const navigateToHeartECGScreen = () => {
-    router.navigate('home/ECGScreen');
+    router.navigate('ECGScreen');
   };
 
   const navigateToSleepScreen = () => {
-    router.navigate('home/SleepScreen');
+    router.navigate('SleepScreen');
   };
 
   const navigateToHeartRateScreen = () => {
-    router.navigate('home/HeartRateScreen');
+    router.navigate('HeartRateScreen');
   };
 
   const navigateToBloodPressureScreen = () => {
-    router.navigate('home/BloodPressureScreen');
+    router.navigate('BloodPressureScreen');
   };
 
   const navigateToBloodOxygenScreen = () => {
-    router.navigate('home/BloodOxygenScreen');
+    router.navigate('BloodOxygenScreen');
   };
 
   const navigateToBreathingFrequencyScreen = () => {
-    router.navigate('home/BreathingFrequencyScreen');
+    router.navigate('BreathingFrequencyScreen');
   };
 
   const navigateToTemperatureScreen = () => {
-    router.navigate('home/TemperatureScreen');
+    router.navigate('TemperatureScreen');
   };
   const navigateToExamScreen = () => {
-    router.navigate('home/ExamScreen');
+    router.navigate('ExamScreen');
   };
 
   return (

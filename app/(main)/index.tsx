@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Video } from 'expo-av';
 import { Link } from 'expo-router';
 
-export default function MainScreen() {
+export default function Index() {
   const video = useRef(null);
 
   const onPlaybackStatusUpdate = (status) => {
@@ -16,7 +16,7 @@ export default function MainScreen() {
     <View style={styles.container}>
       <Video
         ref={video}
-        source={require('../assets/video/background.mp4')}
+        source={require('../../assets/video/background.mp4')}
         style={styles.backgroundVideo}
         shouldPlay
         isLooping
