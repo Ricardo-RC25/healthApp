@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "myhealthapp",
+    "name": "My Health Life Watch",
     "slug": "myhealthapp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,15 +10,15 @@
     "splash": {
       "image": "./assets/imagen/Logo_tira.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#3d0890"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/imagen/Logo_letrasblancas_square.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/imagen/Logo_letrasblancas_adjusted.png",
+        "backgroundColor": "#3d0890"
       },
       "package": "com.ronnhy7.myhealthapp"
     },
