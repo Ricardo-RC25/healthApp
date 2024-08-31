@@ -15,6 +15,7 @@ const SleepScreen = ({ initialSelectedTab = 'Día', initialSelectedDate = new Da
   const [data, setData] = useState({ labels: [], datasets: [{ data: [] }] });
   const [summaryData, setSummaryData] = useState({ average: 0, highest: 0, lowest: 0 });
   const [animationValues, setAnimationValues] = useState([]);
+  const [isHistoryLogExpanded, setIsHistoryLogExpanded] = useState(false); 
 
   const getData = (tab) => {
     const data = {
@@ -212,26 +213,21 @@ const SleepScreen = ({ initialSelectedTab = 'Día', initialSelectedDate = new Da
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Medición del Sueño</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.navigate('SleepAnalysis')}>
-        <Icon name="analytics-outline" size={25} color="#000" />
-        <Text style={styles.menuText}>Análisis del sueño</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.menuIcon} />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.navigate('HealthSettings')}>
-        <Icon name="settings-outline" size={25} color="#000" />
-        <Text style={styles.menuText}>Configuraciones de salud</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.menuIcon} />
-      </TouchableOpacity>
       <TouchableOpacity style={styles.menuItem} onPress={() => router.navigate('KnowledgeColumn')}>
         <Icon name="book-outline" size={25} color="#000" />
         <Text style={styles.menuText}>Columna de conocimiento</Text>
         <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.menuIcon} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.navigate('HistoryLog')}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => setIsHistoryLogExpanded(!isHistoryLogExpanded)}>
         <Icon name="document-text-outline" size={25} color="#000" />
         <Text style={styles.menuText}>Registro de la historia</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.menuIcon} />
+        <Icon name={isHistoryLogExpanded ? "chevron-up-outline" : "chevron-forward-outline"} size={25} color="#000" style={styles.menuIcon} />
       </TouchableOpacity>
+      {isHistoryLogExpanded && (
+        <View style={styles.historyContent}>
+          <Text>Contenido del registro de la historia...</Text>
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -422,6 +418,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: '#000',
+  },
+  historyContent: {
+    padding: 15,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+    marginVertical: 10,
   },
 });
 

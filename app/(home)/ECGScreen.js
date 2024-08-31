@@ -33,10 +33,10 @@ export default function ECGScreen() {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Medición de Electrocardiograma</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.navigate('ECGAnalysis')}>
+      <TouchableOpacity style={styles.menuItem}>
         <Icon name="bar-chart-outline" size={25} color="#000" />
-        <Text style={styles.menuText}>análisis de electrocardiograma</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.menuIcon} />
+        <Text style={styles.menuText}>Análisis de electrocardiograma</Text>
+        <Icon size={25} color="#000" style={styles.menuIcon} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.menuItem} onPress={() => router.navigate('KnowledgeColumn')}>
         <Icon name="book-outline" size={25} color="#000" />
