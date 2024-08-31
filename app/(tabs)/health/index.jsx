@@ -1,11 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { router } from 'expo-router';
+
 
 export default function Health() {
+
+  const navigateToFriendScreen = () => {
+    router.navigate('FriendScreen');
+  };
+
   return (
     <View style={styles.container}>      
-      <TouchableOpacity style={styles.newFriend}>
+      <TouchableOpacity style={styles.newFriend} onPress={navigateToFriendScreen}>
         <Text style={styles.newFriendText}>Nuevo amigo</Text>
         <Icon name="chevron-forward" size={24} color="black" />
       </TouchableOpacity>
@@ -56,3 +63,4 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
