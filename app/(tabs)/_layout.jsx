@@ -34,7 +34,7 @@ export default function TabLayout() {
             paddingBottom: 7,
             paddingTop: 7,
           },
-          headerShown: false, // Habilita el encabezado para todas las pantallas
+          headerShown: true, // Habilita el encabezado para todas las pantallas
           transitionSpec: {
             open: {
               animation: 'timing',

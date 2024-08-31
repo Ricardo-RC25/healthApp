@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
-import LanguagesScreen from '../../(profile)/LanguagesScreen';
+import LanguagesScreen from '../(profile)/LanguagesScreen';
 import { router } from 'expo-router';
-import useAuthStore from '../../../store/auth/authStore';
+import useAuthStore from '../../store/auth/authStore';
 
 export default function ProfileScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
