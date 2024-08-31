@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     paddingVertical: 15,
-    backgroundColor: '#6200EE',
-    borderRadius: 10,
+    backgroundColor: '#3d0890',
+    borderRadius: 8,
     alignItems: 'center',
   },
   buttonText: {

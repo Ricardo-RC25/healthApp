@@ -43,7 +43,7 @@ export default function ProfileScreen() {
     >
       <View style={styles.header}>
         <Image
-          source={{ uri: 'https://via.placeholder.com/100' }}
+          source={require('../../../assets/imagen/user.png')}
           style={styles.profileImage}
         />
         <Text style={styles.profileName}>{user.nombre}</Text>
