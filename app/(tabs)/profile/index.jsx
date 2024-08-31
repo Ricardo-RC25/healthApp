@@ -4,12 +4,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 import LanguagesScreen from '../../(profile)/LanguagesScreen';
 import { router } from 'expo-router';
-import useAuthStore from '../../../store/auth/authStore';
 
 export default function ProfileScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
-  const user = useAuthStore(state => state.user);
-  
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -43,10 +40,10 @@ export default function ProfileScreen() {
     >
       <View style={styles.header}>
         <Image
-          source={{ uri: 'https://via.placeholder.com/100' }}
+          source={require('../../../assets/imagen/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.profileName}>{user.nombre}</Text>
+        <Text style={styles.profileName}>RicardoR.C.</Text>
       </View>
       <View>
         <TouchableOpacity style={styles.option} onPress={navigateToDeviceScreen}>
