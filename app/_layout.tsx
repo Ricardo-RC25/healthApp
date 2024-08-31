@@ -1,40 +1,24 @@
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
+import useAuthStore from '../store/auth/authStore';
 
-export default function MainLayout() {
-    return(
+export default function AppLayout() {
+    const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+
+    console.log(isLoggedIn);
+    
+
+    return (
         <Stack 
             screenOptions={{
-                headerShown:false,
+                headerShown: false,
+                headerTitleAlign:'center'
             }}
         >
-
-            <Stack.Screen 
-                name="(tabs)" 
-                options={
-                    {
-                        title:"Registro",
-                        headerTitleAlign:'center',
-                    }
-                } 
-            />
-            <Stack.Screen 
-                name="(main)" 
-                options={
-                    {
-                        title:"Registro",
-                        headerTitleAlign:'center',
-                    }
-                } 
-            />
-            <Stack.Screen 
-                name="(auth)" 
-                options={
-                    {
-                        title:"Verificacion",
-                        headerTitleAlign:'center',
-                    }
-                } 
-            />
+            {isLoggedIn ? (
+                <Stack.Screen name="(tabs)" />
+            ) : (
+                <Stack.Screen  name="(auth)" />
+            )}
         </Stack>
-    )
+    );
 }

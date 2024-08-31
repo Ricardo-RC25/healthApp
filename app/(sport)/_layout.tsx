@@ -4,26 +4,17 @@ import { StatusBar, TouchableOpacity } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Stack } from 'expo-router';
 
-export default function HomeLayout() {
+export default function HealthLayout() {
 
   const screens = [
-
-    { name: "StepsScreen", title: "Pasos" },
-    { name: "ECGScreen", title: "ECG" },
-    { name: "SleepScreen", title: "Sueño" },
-    { name: "HeartRateScreen", title: "Frecuencia Cardiaca" },
-    { name: "BloodPressureScreen", title: "Presión Arterial" },
-    { name: "BloodOxygenScreen", title: "Oxígeno en Sangre" },
-    { name: "BreathingFrequencyScreen", title: "Frecuencia Respiratoria" },
-    { name: "TemperatureScreen", title: "Temperatura" },
-    { name: "ExamScreen", title: "Exámenes" },
+    { name: "StartSportScreen", title: "Iniciar Deporte" },
   ];
 
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#36a9b4" />
       <Stack
-        initialRouteName='home'
+        initialRouteName='sport'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#3cbccc',

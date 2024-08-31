@@ -1,10 +1,15 @@
 import { Stack } from "expo-router";
 
+
+
 export default function MainLayout() {
+    
+
     return(
         <Stack 
             screenOptions={{
-                headerShown:false,
+                headerTitleAlign:'center',
+                headerShown:false
             }}
         >
 
@@ -13,7 +18,6 @@ export default function MainLayout() {
                 options={
                     {
                         title:"Registro",
-                        headerTitleAlign:'center',
                         headerShown:true
                     }
                 } 
@@ -23,11 +27,27 @@ export default function MainLayout() {
                 options={
                     {
                         title:"Validacion",
-                        headerTitleAlign:'center',
                         headerShown:true
                     }
                 } 
             />
+            <Stack.Screen 
+                name="login" 
+                options={
+                    {
+                        title:"Inicio de Sesion",
+                    }
+                } 
+            />
+            <Stack.Screen 
+                name="index" 
+                options={
+                    {
+                        headerShown:false
+                    }
+                } 
+            />
+            
 
         </Stack>
     )

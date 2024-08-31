@@ -5,6 +5,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
+import useAuthStore from '../../store/auth/authStore';
 
 const { width } = Dimensions.get('window');
 
@@ -14,6 +15,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const keyboardVisible = useSharedValue(false);
   const theme = useTheme();
+  const login = useAuthStore(state => state.login);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -62,7 +64,8 @@ export default function Login() {
 
   const handleLogin = () => {
     if (username === 'user' && password === 'password') {
-      router.replace('home');
+      login({nombre: 'ronaldo'})
+      router.replace('(tabs)');
     } else {
       Alert.alert('Credenciales incorrectas');
     }
@@ -77,7 +80,7 @@ export default function Login() {
         <View style={styles.container}>
           <Animated.View style={[styles.imageWrapper, imageAnimatedStyle]}>
             <Image
-              source={{ uri: 'https://img.freepik.com/foto-gratis/doctor-estetoscopio-cerca_23-2149191355.jpg' }}
+              source={require('../../assets/imagen/doctores.png')}
               style={styles.logo}
               onLoad={() => console.log('Image loaded')}
               onError={() => console.log('Error loading image')}
@@ -139,7 +142,6 @@ export default function Login() {
     </PaperProvider>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

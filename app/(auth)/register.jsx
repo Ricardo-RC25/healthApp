@@ -14,10 +14,8 @@ export default function Register() {
 
   const handleRegister = async () => {
     // Aquí puedes agregar la lógica de registro
-    console.log(correo)
-    console.log(password)
-    if (correo) {
-      // await AsyncStorage.setItem('userToken', 'some-auth-token'); // Guardar el token de autenticación
+    if (correo ) {
+      await AsyncStorage.setItem('userToken', 'some-auth-token'); // Guardar el token de autenticación
       router.push('validation'); // Navegar a la aplicación principal
     } else {
       Alert.alert('Registro fallido', 'Por favor, ingresa un nombre de usuario y una contraseña válidos.');
@@ -31,7 +29,7 @@ export default function Register() {
           <Ionicons name="person" size={20} color="#000" style={styles.icon} />
           <TextInput
             value={correo}
-            onChangeText={setCorreo}
+            onChange={(e) => setCorreo(e.target.value)}
             style={styles.input}
             placeholder="Ingresar correo"
             placeholderTextColor="#999"
@@ -41,7 +39,7 @@ export default function Register() {
           <Ionicons name="lock-closed" size={20} color="#000" style={styles.icon} />
           <TextInput
             value={password}
-            onChangeText={ setPassword}
+            onChange={(e) => setPassword(e.target.value)}
             style={styles.input}
             secureTextEntry
             placeholder="Ingresar contraseña"
@@ -52,7 +50,7 @@ export default function Register() {
           <Ionicons name="lock-closed" size={20} color="#000" style={styles.icon} />
           <TextInput
             value={password2}
-            onChangeText={setPassword2}
+            onChange={(e) => setPassword2(e.target.value)}
             style={styles.input}
             secureTextEntry
             placeholder="Confirmar contraseña"
@@ -70,7 +68,7 @@ export default function Register() {
           </Text>
         </View>
       </View>
-      <Button mode='contained' onPress={handleRegister}>
+      <Button mode='contained' onPress={handleRegister} style={styles.customButton}>
         Obtener codigo de verificacion
       </Button>
     </View>
@@ -105,5 +103,8 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent',
     marginBottom:15
   },
+  customButton: {
+    borderRadius: 8,
+    backgroundColor: '#3d0890',
+  },
 });
-

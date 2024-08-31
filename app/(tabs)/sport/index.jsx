@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, LayoutAnimation, Platform, UIManager } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { router } from 'expo-router';
 
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 export default function Sport() {
+
+  const navigateToStartSportScreen = () => {
+    router.navigate('StartSportScreen');
+  };
+
   const [selectedTab, setSelectedTab] = useState('Entrenamiento');
-  const tabs = ['Correr', 'Aptitud', 'Cuerda'];
+  const tabs = ['Correr', 'Aptitud', 'Cuerda', 'Natación', 'Ciclismo', 'Yoga', 'Senderismo', 'Entrenamiento en Circuito', 'Pilates', 'Artes Marciales'];
 
   const handleTabChange = (tab) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -25,7 +31,7 @@ export default function Sport() {
         </View>
         <Text style={styles.locationText}>Chimalhuacan</Text>
         <Text style={styles.rangeText}>16°C ~ 23°C</Text>
-        <TouchableOpacity style={styles.playButton}>
+        <TouchableOpacity style={styles.playButton} onPress={navigateToStartSportScreen}>
           <Icon name="play-circle-outline" size={50} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -34,16 +40,18 @@ export default function Sport() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.tabsContainer}>
-        {tabs.map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            style={selectedTab === tab ? styles.activeTab : styles.tab}
-            onPress={() => handleTabChange(tab)}
-          >
-            <Text style={selectedTab === tab ? styles.activeTabText : styles.tabText}>{tab}</Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.tabsWrapper}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabsContainer}>
+          {tabs.map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              style={selectedTab === tab ? styles.activeTab : styles.tab}
+              onPress={() => handleTabChange(tab)}
+            >
+              <Text style={selectedTab === tab ? styles.activeTabText : styles.tabText}>{tab}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
       <View style={styles.contentContainer}>
         {renderContent()}
@@ -58,14 +66,15 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#fff',
   },
-  tabsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+  tabsWrapper: {
+    height: 50, // Ajusta la altura según tus necesidades
     marginBottom: 10,
-    alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
+  },
+  tabsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tab: {
     paddingVertical: 10,
@@ -75,7 +84,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#00BFA5',
     alignItems: 'center',
-    width: '30%',
+    width: 'auto',
   },
   tabText: {
     color: '#000',

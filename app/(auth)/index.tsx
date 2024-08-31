@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Video } from 'expo-av';
 import { Link } from 'expo-router';
 
+
 export default function Index() {
   const video = useRef(null);
 

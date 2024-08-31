@@ -4,11 +4,11 @@
     "slug": "myhealthapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/imagen/Logo_letrasblancas_square.png",
+    "scheme": "healthapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/imagen/Logo_tira.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,20 +17,29 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/imagen/Logo_letrasblancas_square.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ronnhy7.myhealthapp"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/imagen/Logo_letrasblancas_square.png"
     },
     "plugins": [
       "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "28aa6343-fd1d-4cd4-bf17-9315f8cb0d03"
+      }
     }
   }
 }

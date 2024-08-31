@@ -22,10 +22,9 @@ export default function HomeLayout() {
         >
             
             <Stack.Screen
-              key="index"
               name="index"
               options={{
-                title: "Profile",
+                title: "Perfil",
                 headerLeft: () => null,
               }}
             />

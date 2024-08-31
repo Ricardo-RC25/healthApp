@@ -25,7 +25,7 @@ export default function HomeLayout() {
               key="index"
               name="index"
               options={{
-                title: "Sport",
+                title: "Deporte",
                 headerLeft: () => null,
               }}
             />
