@@ -2,10 +2,16 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import useAuthStore from '../../store/auth/authStore';
+import { router } from 'expo-router';
 
 export default function SecurityScreen() {
 
   const logout = useAuthStore(state => state.logout);
+
+  const handleLogOut = (e) =>{
+    logout()
+    // router.replace('/login')
+  }
 
   return (
     <View style={styles.container}>
@@ -23,7 +29,7 @@ export default function SecurityScreen() {
         <Text style={styles.deleteText}>Borrar Cuenta</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.disconnectButton} onPress={logout}>
+      <TouchableOpacity style={styles.disconnectButton} onPress={handleLogOut}>
         <Text style={styles.disconnectText}>Serrar Sesión</Text>
       </TouchableOpacity>
     </View>

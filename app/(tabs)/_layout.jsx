@@ -1,5 +1,5 @@
 import { router, Tabs } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, TouchableOpacity } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
@@ -10,6 +10,14 @@ import useAuthStore from '../../store/auth/authStore';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.replace("/(tabs)")
+    } else {
+      router.replace('/(auth)/login')
+    }
+  }, [isLoggedIn]);
 
 
   return (

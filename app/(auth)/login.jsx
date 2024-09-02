@@ -63,9 +63,10 @@ export default function Login() {
   };
 
   const handleLogin = () => {
+    
     if (username === 'user' && password === 'password') {
       login({nombre: 'ronaldo'})
-      router.replace('(tabs)');
+      router.replace('/(tabs)');
     } else {
       Alert.alert('Credenciales incorrectas');
     }
