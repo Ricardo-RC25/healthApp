@@ -1,13 +1,23 @@
 import { router, Tabs } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, TouchableOpacity } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import useAuthStore from '../../store/auth/authStore';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.replace("/(tabs)")
+    } else {
+      router.replace('/(auth)/login')
+    }
+  }, [isLoggedIn]);
 
 
   return (
@@ -15,6 +25,15 @@ export default function TabLayout() {
       <StatusBar barStyle="light-content" backgroundColor="#36a9b4" />
       <Tabs
         screenOptions={{
+            headerStyle: {
+              backgroundColor: '#3cbccc',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTitleAlign: 'center',
+          
           tabBarStyle: {
             backgroundColor: '#ffffff', // Color de fondo de la barra de pestañas
             borderTopColor: '#ddd', // Color del borde superior
@@ -23,7 +42,7 @@ export default function TabLayout() {
             paddingBottom: 7,
             paddingTop: 7,
           },
-          headerShown: false, // Habilita el encabezado para todas las pantallas
+          headerShown: true, // Habilita el encabezado para todas las pantallas
           transitionSpec: {
             open: {
               animation: 'timing',
@@ -43,20 +62,21 @@ export default function TabLayout() {
         }}>
 
         <Tabs.Screen
-          name="home"
+          name="index"
           options={{
-            title: 'Home',
+            title: 'Inicio',
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
             ),
-
+            headerLeft: () => null,
+            headerShown:true
           }}
         />
 
         <Tabs.Screen
           name="sport"
           options={{
-            title: 'Sport',
+            title: 'Deporte',
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'bicycle' : 'bicycle-outline'} color={color} />
             ),
@@ -66,7 +86,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="health"
           options={{
-            title: 'Health',
+            title: 'Salud',
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'heart' : 'heart-outline'} color={color} />
             ),
@@ -76,12 +96,13 @@ export default function TabLayout() {
         <Tabs.Screen
           name="profile"
           options={{
-            title: 'Profile',
+            title: 'Perfil',
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
             ),
           }}
         />
+
       </Tabs>
     </>
   );
