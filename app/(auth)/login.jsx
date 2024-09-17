@@ -6,11 +6,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import useAuthStore from '../../store/auth/authStore';
+import { apiLogin } from '../../services/authApi';
+import  {jwtDecode}   from 'jwt-decode'; 
 
 const { width } = Dimensions.get('window');
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const keyboardVisible = useSharedValue(false);
@@ -62,13 +64,28 @@ export default function Login() {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
+
     
-    if (username === 'user' && password === 'password') {
-      login({nombre: 'ronaldo'})
-      router.replace('/(tabs)');
+    
+    if (email !== '' && password !== '') {
+      try {
+        const response = await apiLogin({email, password})
+
+        if (response.status !== 200) {
+          Alert.alert(response.data.message);
+          return
+        }
+        const decoded = jwtDecode(response.data.token);
+
+        login(decoded)
+        router.replace('/(tabs)'); 
+        
+      } catch (error) {
+        Alert.alert(error);
+      }
     } else {
-      Alert.alert('Credenciales incorrectas');
+      Alert.alert('La contraseña o password estan vacios');
     }
   };
 
@@ -96,8 +113,8 @@ export default function Login() {
             <TextInput
               label="Nombre de usuario"
               mode="outlined"
-              value={username}
-              onChangeText={setUsername}
+              value={email}
+              onChangeText={setEmail}
               style={styles.input}
               theme={{ colors: { primary: '#3d0890' } }}
             />

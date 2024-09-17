@@ -9,7 +9,7 @@ export default function AppLayout() {
         if (isLoggedIn) {
           router.replace("/(tabs)")
         } else {
-          router.replace('/(auth)/login')
+          router.replace('/(auth)')
         }
       }, [isLoggedIn]);
     

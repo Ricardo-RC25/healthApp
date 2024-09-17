@@ -46,7 +46,7 @@ export default function ProfileScreen() {
           source={require('../../assets/imagen/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.profileName}>{user.nombre}</Text>
+        <Text style={styles.profileName}>{user.name}</Text>
       </View>
       <View>
         <TouchableOpacity style={styles.option} onPress={navigateToDeviceScreen}>

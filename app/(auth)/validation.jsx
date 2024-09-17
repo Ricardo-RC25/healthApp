@@ -2,10 +2,13 @@ import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button, useTheme, Provider as PaperProvider } from 'react-native-paper';
 import { router } from 'expo-router';
+import useAuthStore from '../../store/auth/authStore';
 
 export default function Validation() {
     const [code, setCode] = useState(['', '', '', '', '', '']);
+    const email = useAuthStore(state => state.email)
     const inputRefs = useRef([]);
+    
 
     const handleChangeText = (text, index) => {
         const newCode = [...code];
@@ -42,7 +45,7 @@ export default function Validation() {
                 Ingrese el codigo de verificacion
             </Text>
             <Text>
-                El codigo de verificacion ha sido envidado a correo
+                El codigo de verificacion ha sido envidado a correo {email}
             </Text>
             <View style={styles.containerValidation}>
                 {code.map((digit, index) => (
