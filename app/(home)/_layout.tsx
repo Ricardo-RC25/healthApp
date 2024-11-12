@@ -3,15 +3,20 @@ import React from 'react';
 import { StatusBar, TouchableOpacity } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Stack } from 'expo-router';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function HomeLayout() {
+  const colorScheme = useColorScheme();
+
+  const isDarkMode = colorScheme === 'dark';
+  const backgroundColor = isDarkMode ? '#000000' : '#ffffff';
+  const textColor = isDarkMode ? '#FFFFFF' : '#000000';
 
   const screens = [
-
     { name: "StepsScreen", title: "Pasos" },
     { name: "ECGScreen", title: "ECG" },
     { name: "SleepScreen", title: "Sueño" },
-    { name: "HeartRateScreen", title: "Frecuencia Cardiaca" },
+    { name: "HeartRateScreen", title: "Ritmo Cardiaco" },
     { name: "BloodPressureScreen", title: "Presión Arterial" },
     { name: "BloodOxygenScreen", title: "Oxígeno en Sangre" },
     { name: "BreathingFrequencyScreen", title: "Frecuencia Respiratoria" },
@@ -21,14 +26,17 @@ export default function HomeLayout() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#36a9b4" />
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundColor}
+      />
       <Stack
         initialRouteName='home'
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#3cbccc',
+            backgroundColor,
           },
-          headerTintColor: '#fff',
+          headerTintColor: textColor,
           headerTitleStyle: {
             fontWeight: 'bold',
           },

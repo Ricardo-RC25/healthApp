@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, useColorScheme } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router';
 
 export default function HomeScreen() {
-
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
 
   const navigateToStepsScreen = () => {
     router.navigate('StepsScreen');
@@ -13,6 +14,7 @@ export default function HomeScreen() {
   const navigateToClassificationScreen = () => {
     router.navigate('ClassificationScreen');
   };
+  
   const navigateToBoardScreen = () => {
     router.navigate('BoardScreen');
   };
@@ -44,22 +46,24 @@ export default function HomeScreen() {
   const navigateToTemperatureScreen = () => {
     router.navigate('TemperatureScreen');
   };
+
   const navigateToExamScreen = () => {
     router.navigate('ExamScreen');
   };
 
   return (
     <ScrollView
-      contentContainerStyle={styles.container}
+      contentContainerStyle={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
+      overScrollMode="never"
     >
-      <TouchableOpacity style={styles.mainCardTouchable} onPress={navigateToStepsScreen}>
+      <TouchableOpacity style={[styles.mainCardTouchable, { backgroundColor: isDarkMode ? '#1e1e1e' : '#346cb4' }]} onPress={navigateToStepsScreen}>
         <View style={styles.stepsContainer}>
-          <View style={styles.stepsProgressBackground}>
+          <View style={[styles.stepsProgressBackground, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
             <View style={styles.stepsProgressWrapper}>
-              <Text style={styles.steps}>Pasos</Text>
-              <Text style={styles.stepsCount}>1161</Text>
+              <Text style={[styles.steps, { color: isDarkMode ? '#ffffff' : '#3ebaca' }]}>Pasos</Text>
+              <Text style={[styles.stepsCount, { color: isDarkMode ? '#ffffff' : '#3ebaca' }]}>1161</Text>
             </View>
           </View>
           <View style={styles.stats}>
@@ -78,57 +82,53 @@ export default function HomeScreen() {
           </View>
         </View>
       </TouchableOpacity>
+
       <View style={styles.grid}>
-        {/* <TouchableOpacity style={[styles.gridItem, styles.smallGridItem]} onPress={navigateToClassificationScreen}>
-          <View style={styles.iconTextContainer}>
-            <Icon name="medal-outline" size={30} color="#ff7043" />
-            <Text style={styles.gridText}>Tabla de clasificación</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.gridItem, styles.smallGridItem]} onPress={navigateToBoardScreen}>
-          <View style={styles.iconTextContainer}>
-            <Icon name="book-outline" size={30} color="#64b5f6" />
-            <Text style={styles.gridText}>Columna de Salud</Text>
-          </View>
-        </TouchableOpacity> */}
-        <TouchableOpacity style={styles.gridItem} onPress={navigateToHeartECGScreen}>
+        <TouchableOpacity style={[styles.gridItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToHeartECGScreen}>
           <Icon name="pulse-outline" size={60} color="#ff8a65" />
-          <Text style={styles.gridText}>ECG</Text>
+          <Text style={[styles.gridText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>ECG</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.gridItem} onPress={navigateToSleepScreen}>
+
+        <TouchableOpacity style={[styles.gridItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToSleepScreen}>
           <Icon name="moon-outline" size={60} color="#ffca28" />
-          <Text style={styles.gridText}>Dormir</Text>
-          <Text style={styles.gridSubText}>00 h 00 min</Text>
+          <Text style={[styles.gridText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Sueño</Text>
+          <Text style={[styles.gridSubText, { color: isDarkMode ? 'lightgrey' : '#888' }]}>00 h 00 min</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.gridItem} onPress={navigateToHeartRateScreen}>
+
+        <TouchableOpacity style={[styles.gridItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToHeartRateScreen}>
           <Icon name="heart-outline" size={60} color="#f48fb1" />
-          <Text style={styles.gridText}>Ritmo cardiaco</Text>
-          <Text style={styles.gridSubText}>73 bpm</Text>
+          <Text style={[styles.gridText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Ritmo Cardiaco</Text>
+          <Text style={[styles.gridSubText, { color: isDarkMode ? 'lightgrey' : '#888' }]}>73 bpm</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.gridItem} onPress={navigateToBloodPressureScreen}>
+
+        <TouchableOpacity style={[styles.gridItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToBloodPressureScreen}>
           <Icon name="speedometer-outline" size={60} color="#9575cd" />
-          <Text style={styles.gridText}>Presión arterial</Text>
-          <Text style={styles.gridSubText}>114/77 mmHg</Text>
+          <Text style={[styles.gridText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Presión Arterial</Text>
+          <Text style={[styles.gridSubText, { color: isDarkMode ? 'lightgrey' : '#888' }]}>114/77 mmHg</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.gridItem} onPress={navigateToBloodOxygenScreen}>
+
+        <TouchableOpacity style={[styles.gridItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToBloodOxygenScreen}>
           <Icon name="water-outline" size={60} color="#4db6ac" />
-          <Text style={styles.gridText}>Oxígeno en sangre</Text>
-          <Text style={styles.gridSubText}>98%</Text>
+          <Text style={[styles.gridText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Oxígeno en sangre</Text>
+          <Text style={[styles.gridSubText, { color: isDarkMode ? 'lightgrey' : '#888' }]}>98%</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.gridItem} onPress={navigateToBreathingFrequencyScreen}>
+
+        <TouchableOpacity style={[styles.gridItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToBreathingFrequencyScreen}>
           <Icon name="cloud-outline" size={60} color="#ef5350" />
-          <Text style={styles.gridText}>Frecuencia respiratoria</Text>
-          <Text style={styles.gridSubText}>15 rpm</Text>
+          <Text style={[styles.gridText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Frecuencia respiratoria</Text>
+          <Text style={[styles.gridSubText, { color: isDarkMode ? 'lightgrey' : '#888' }]}>15 rpm</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.gridItem} onPress={navigateToTemperatureScreen}>
+
+        <TouchableOpacity style={[styles.gridItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToTemperatureScreen}>
           <Icon name="thermometer-outline" size={60} color="#ff7043" />
-          <Text style={styles.gridText}>Temperatura</Text>
-          <Text style={styles.gridSubText}>36.2°C</Text>
+          <Text style={[styles.gridText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Temperatura</Text>
+          <Text style={[styles.gridSubText, { color: isDarkMode ? 'lightgrey' : '#888' }]}>36.2°C</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.healthCheck} onPress={navigateToExamScreen}>
-        <Text style={styles.healthCheckText}>Autoexamen de salud</Text>
-        <Text style={styles.healthCheckSubText}>Ven y comprueba cuántos puntos puede sumar tu cuerpo</Text>
+
+      <TouchableOpacity style={[styles.healthCheck, { backgroundColor: isDarkMode ? '#1e1e1e' : '#e8f5e9' }]} onPress={navigateToExamScreen}>
+        <Text style={[styles.healthCheckText, { color: isDarkMode ? '#ffffff' : '#4caf50' }]}>Autoexamen de salud</Text>
+        <Text style={[styles.healthCheckSubText, { color: isDarkMode ? 'lightgrey' : '#4caf50' }]}>Ven y comprueba cuántos puntos puede sumar tu cuerpo</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 10,
     overflow: 'hidden',
-    backgroundColor: '#346cb4',
     padding: 20,
     alignItems: 'center',
   },
@@ -154,7 +153,6 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 80,
-    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -166,20 +164,13 @@ const styles = StyleSheet.create({
     borderColor: '#346cb4',
     overflow: 'hidden',
   },
-  stepsProgress: {
-    position: 'absolute',
-
-    backgroundColor: '#3d0890',
-  },
   steps: {
     fontSize: 20,
-    color: '#3d0890',
     marginTop: 8,
     textAlign: 'center',
   },
   stepsCount: {
     fontSize: 48,
-    color: '#3d0890',
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -203,7 +194,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   gridItem: {
-    backgroundColor: '#ffffff',
     borderRadius: 10,
     padding: 20,
     width: '48%',
@@ -215,27 +205,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  smallGridItem: {
-    height: 100,
-  },
-  iconTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   gridText: {
     fontSize: 18,
-    color: '#000',
     textAlign: 'center',
     marginTop: 10,
   },
   gridSubText: {
     fontSize: 16,
-    color: '#888',
     textAlign: 'center',
     marginTop: 5,
   },
   healthCheck: {
-    backgroundColor: '#e8f5e9',
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
@@ -248,12 +228,10 @@ const styles = StyleSheet.create({
   },
   healthCheckText: {
     fontSize: 18,
-    color: '#4caf50',
     marginBottom: 6,
   },
   healthCheckSubText: {
     fontSize: 14,
-    color: '#4caf50',
     textAlign: 'center',
   },
 });

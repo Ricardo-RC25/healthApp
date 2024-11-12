@@ -1,43 +1,62 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, BackHandler, useColorScheme } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 import LanguagesScreen from '../(profile)/LanguagesScreen';
 import { router } from 'expo-router';
 import useAuthStore from '../../store/auth/authStore';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function ProfileScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const user = useAuthStore(state => state.user);
-  
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (isModalVisible) {
+          setModalVisible(false);
+          return true;
+        }
+        return false;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [isModalVisible])
+  );
+
   const navigateToDeviceScreen = () => {
-    router.navigate('DeviceScreen');
+    router.push('DeviceScreen');
   };
 
   const navigateToStorageScreen = () => {
-    router.navigate('StorageScreen');
+    router.push('StorageScreen');
   };
 
   const navigateToSecurityScreen = () => {
-    router.navigate('SecurityScreen');
+    router.push('SecurityScreen');
   };
 
   const navigateToHelpScreen = () => {
-    router.navigate('HelpScreen');
+    router.push('HelpScreen');
   };
 
   const navigateToAboutUsScreen = () => {
-    router.navigate('AboutUsScreen');
+    router.push('AboutUsScreen');
   };
 
   return (
     <ScrollView
-      contentContainerStyle={styles.container}
+      contentContainerStyle={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     >
@@ -46,34 +65,34 @@ export default function ProfileScreen() {
           source={require('../../assets/imagen/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.profileName}>{user.name}</Text>
+        <Text style={[styles.profileName, { color: isDarkMode ? '#ffffff' : '#000000' }]}>{user.name}</Text>
       </View>
       <View>
-        <TouchableOpacity style={styles.option} onPress={navigateToDeviceScreen}>
-          <Text style={styles.optionText}>Mi dispositivo</Text>
-          <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+        <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToDeviceScreen}>
+          <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Mi Dispositivo</Text>
+          <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Borrar caché</Text>
-          <Text style={styles.optionDetail}>1.08MB</Text>
-          <Icon style={styles.optionIcon} />
+        <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+          <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Borrar caché</Text>
+          <Text style={[styles.optionDetail, { color: isDarkMode ? 'lightgrey' : '#888' }]}>1.08MB</Text>
+          <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option} onPress={navigateToSecurityScreen}>
-          <Text style={styles.optionText}>Configuraciones de seguridad</Text>
-          <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+        <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToSecurityScreen}>
+          <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Seguridad</Text>
+          <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option} onPress={navigateToHelpScreen}>
-          <Text style={styles.optionText}>Ayuda</Text>
-          <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+        <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToHelpScreen}>
+          <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Ayuda</Text>
+          <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option} onPress={toggleModal}>
-          <Text style={styles.optionText}>Idiomas</Text>
-          <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+        <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={toggleModal}>
+          <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Idiomas</Text>
+          <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Sobre nosotros</Text>
-          <Text style={styles.optionDetail}>1.27.74</Text>
-          <Icon style={styles.optionIcon} />
+        <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToAboutUsScreen}>
+          <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Sobre nosotros</Text>
+          <Text style={[styles.optionDetail, { color: isDarkMode ? 'lightgrey' : '#888' }]}>1.27.74</Text>
+          <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
         </TouchableOpacity>
       </View>
       <Modal
@@ -81,11 +100,12 @@ export default function ProfileScreen() {
         onBackdropPress={toggleModal}
         onSwipeComplete={toggleModal}
         swipeDirection="down"
+        onBackButtonPress={toggleModal}
         style={styles.modal}
         animationIn="slideInUp"
         animationOut="slideOutDown"
-        animationInTiming={300}  // Acelerando la animación de apertura
-        animationOutTiming={300} // Acelerando la animación de cierre
+        animationInTiming={300} 
+        animationOutTiming={300} 
         useNativeDriverForBackdrop={true}
       >
         <LanguagesScreen toggleModal={toggleModal} />
@@ -119,7 +139,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    backgroundColor: '#fff',
     marginVertical: 5,
     borderRadius: 10,
     shadowColor: '#000',
@@ -131,12 +150,10 @@ const styles = StyleSheet.create({
   optionText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#000',
     flex: 1,
   },
   optionDetail: {
     fontSize: 14,
-    color: '#888',
   },
   optionIcon: {
     marginLeft: 'auto',

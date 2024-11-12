@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, LayoutAnimation, Platform, UIManager, useColorScheme } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router';
 
@@ -8,6 +8,8 @@ if (Platform.OS === 'android') {
 }
 
 export default function Sport() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
 
   const navigateToStartSportScreen = () => {
     router.navigate('StartSportScreen');
@@ -23,32 +25,32 @@ export default function Sport() {
 
   const renderContent = () => {
     return (
-      <View style={styles.mainCard}>
+      <View style={[styles.mainCard, { backgroundColor: isDarkMode ? '#1e1e1e' : '#e0f7fa' }]}>
         <View style={styles.weatherRow}>
           <Icon name="rainy-outline" size={30} color="#4caf50" />
-          <Text style={styles.tempText}>21°C</Text>
+          <Text style={[styles.tempText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>21°C</Text>
           <Icon name="watch-outline" size={30} color="#ff5722" />
         </View>
-        <Text style={styles.locationText}>Chimalhuacan</Text>
-        <Text style={styles.rangeText}>16°C ~ 23°C</Text>
-        <TouchableOpacity style={styles.playButton} onPress={navigateToStartSportScreen}>
-          <Icon name="play-circle-outline" size={50} color="#fff" />
+        <Text style={[styles.locationText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Chimalhuacan</Text>
+        <Text style={[styles.rangeText, { color: isDarkMode ? 'lightgrey' : '#000000' }]}>16°C ~ 23°C</Text>
+        <TouchableOpacity style={[styles.playButton, { backgroundColor: isDarkMode ? '#00BFA5' : '#00BFA5' }]} onPress={navigateToStartSportScreen}>
+          <Icon name="play-circle-outline" size={50} color="#ffffff" />
         </TouchableOpacity>
       </View>
     );
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.tabsWrapper}>
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}>
+      <View style={[styles.tabsWrapper, { backgroundColor: isDarkMode ? '#000000' : '#ffffff' }]}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabsContainer}>
           {tabs.map((tab) => (
             <TouchableOpacity
               key={tab}
-              style={selectedTab === tab ? styles.activeTab : styles.tab}
+              style={selectedTab === tab ? [styles.activeTab, { borderBottomColor: isDarkMode ? '#00BFA5' : '#00BFA5' }] : styles.tab}
               onPress={() => handleTabChange(tab)}
             >
-              <Text style={selectedTab === tab ? styles.activeTabText : styles.tabText}>{tab}</Text>
+              <Text style={selectedTab === tab ? [styles.activeTabText, { color: isDarkMode ? '#00BFA5' : '#00BFA5' }] : [styles.tabText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>{tab}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -62,15 +64,16 @@ export default function Sport() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
     flexGrow: 1,
-    backgroundColor: '#fff',
   },
   tabsWrapper: {
-    height: 50, // Ajusta la altura según tus necesidades
-    marginBottom: 10,
+    height: 50,
+    marginBottom: 1,
+    marginTop: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
+    marginHorizontal: -16,
+    paddingHorizontal: 16,
   },
   tabsContainer: {
     flexDirection: 'row',
@@ -82,17 +85,14 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderBottomWidth: 2,
-    borderBottomColor: '#00BFA5',
     alignItems: 'center',
     width: 'auto',
   },
   tabText: {
-    color: '#000',
     fontSize: 16,
     textAlign: 'center',
   },
   activeTabText: {
-    color: '#00BFA5',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5,
     width: '100%',
+    paddingHorizontal: 16,
   },
   mainCard: {
-    backgroundColor: '#e0f7fa',
     borderRadius: 20,
     padding: 16,
     alignItems: 'center',
@@ -120,21 +120,17 @@ const styles = StyleSheet.create({
   },
   tempText: {
     fontSize: 36,
-    color: '#000',
     marginHorizontal: 10,
   },
   locationText: {
     fontSize: 18,
-    color: '#000',
     marginVertical: 5,
   },
   rangeText: {
     fontSize: 14,
-    color: '#000',
     marginBottom: 10,
   },
   playButton: {
-    backgroundColor: '#00BFA5',
     borderRadius: 50,
     padding: 10,
   },

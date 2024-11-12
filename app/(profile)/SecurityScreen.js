@@ -3,26 +3,29 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import useAuthStore from '../../store/auth/authStore';
 import { router } from 'expo-router';
+import { useColorScheme } from 'react-native';
 
 export default function SecurityScreen() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
 
   const logout = useAuthStore(state => state.logout);
 
-  const handleLogOut = (e) =>{
-    logout()
+  const handleLogOut = () => {
+    logout();
     // router.replace('/login')
-  }
+  };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Restablecer la contraseña</Text>
-        <Icon name="chevron-forward-outline" size={20} color="#000" />
+    <View style={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}>
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Restablecer la contraseña</Text>
+        <Icon name="chevron-forward-outline" size={20} color={isDarkMode ? '#ffffff' : '#000000'} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Configuración de permisos</Text>
-        <Icon name="chevron-forward-outline" size={20} color="#000" />
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Configuración de permisos</Text>
+        <Icon name="chevron-forward-outline" size={20} color={isDarkMode ? '#ffffff' : '#000000'} />
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.deleteButton}>
@@ -30,7 +33,7 @@ export default function SecurityScreen() {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.disconnectButton} onPress={handleLogOut}>
-        <Text style={styles.disconnectText}>Serrar Sesión</Text>
+        <Text style={styles.disconnectText}>Cerrar Sesión</Text>
       </TouchableOpacity>
     </View>
   );
@@ -40,15 +43,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    
   },
   option: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-    backgroundColor: '#fff',
+    borderBottomColor: '#ffff', 
     marginVertical: 5,
     borderRadius: 10,
     shadowColor: '#000',
@@ -60,15 +61,7 @@ const styles = StyleSheet.create({
   optionText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#000',
     flex: 1,
-  },
-  optionDetail: {
-    fontSize: 14,
-    color: '#888',
-  },
-  optionIcon: {
-    marginLeft: 'auto',
   },
   deleteButton: {
     marginTop: 30,
@@ -85,7 +78,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     fontSize: 16,
-    color: '#fff',
+    color: '#ffffff',
   },
   disconnectButton: {
     marginTop: 30,
@@ -102,7 +95,6 @@ const styles = StyleSheet.create({
   },
   disconnectText: {
     fontSize: 16,
-    color: '#fff',
+    color: '#ffffff',
   },
 });
-

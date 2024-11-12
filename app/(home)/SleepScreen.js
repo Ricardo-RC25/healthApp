@@ -1,59 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, UIManager, LayoutAnimation, Platform, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, UIManager, LayoutAnimation, Platform, Animated, useColorScheme } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const SleepScreen = ({ initialSelectedTab = 'Día', initialSelectedDate = new Date(), initialIsDatePickerVisible = false }) => {
+const SleepScreen = ({ initialSelectedTab = 'Día' }) => {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+
   const [selectedTab, setSelectedTab] = useState(initialSelectedTab);
-  const [selectedDate, setSelectedDate] = useState(initialSelectedDate);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(initialIsDatePickerVisible);
   const [data, setData] = useState({ labels: [], datasets: [{ data: [] }] });
   const [summaryData, setSummaryData] = useState({ average: 0, highest: 0, lowest: 0 });
   const [animationValues, setAnimationValues] = useState([]);
-  const [isHistoryLogExpanded, setIsHistoryLogExpanded] = useState(false); 
+  const [isHistoryLogExpanded, setIsHistoryLogExpanded] = useState(false);
 
   const getData = (tab) => {
     const data = {
       labels: [],
-      datasets: [
-        {
-          data: [],
-        },
-      ],
+      datasets: [{ data: [] }],
     };
-
-    const summaryData = {
-      average: 0,
-      highest: 0,
-      lowest: 0,
-    };
+    const summaryData = { average: 0, highest: 0, lowest: 0 };
 
     switch (tab) {
       case 'Mes':
         data.labels = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'];
-        data.datasets[0].data = [6, 7, 5, 8]; // Datos de ejemplo para el mes
-        summaryData.average = (6 + 7 + 5 + 8) / 4; // Calculo del promedio
-        summaryData.highest = Math.max(6, 7, 5, 8); // Calculo de la más alta
-        summaryData.lowest = Math.min(6, 7, 5, 8); // Calculo de la más baja
+        data.datasets[0].data = [6, 7, 5, 8];
+        summaryData.average = (6 + 7 + 5 + 8) / 4;
+        summaryData.highest = Math.max(6, 7, 5, 8);
+        summaryData.lowest = Math.min(6, 7, 5, 8);
         break;
       case 'Semana':
         data.labels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-        data.datasets[0].data = [7, 6, 8, 5, 7, 6, 7]; // Datos de ejemplo para la semana
-        summaryData.average = (7 + 6 + 8 + 5 + 7 + 6 + 7) / 7; // Calculo del promedio
-        summaryData.highest = Math.max(7, 6, 8, 5, 7, 6, 7); // Calculo de la más alta
-        summaryData.lowest = Math.min(7, 6, 8, 5, 7, 6, 7); // Calculo de la más baja
+        data.datasets[0].data = [7, 6, 8, 5, 7, 6, 7];
+        summaryData.average = (7 + 6 + 8 + 5 + 7 + 6 + 7) / 7;
+        summaryData.highest = Math.max(7, 6, 8, 5, 7, 6, 7);
+        summaryData.lowest = Math.min(7, 6, 8, 5, 7, 6, 7);
         break;
       case 'Día':
         data.labels = ['12PM', '3PM', '6PM', '9PM'];
-        data.datasets[0].data = [0, 0, 1, 2, 4, 5, 3, 6, 7, 5, 4, 3, 2, 4, 6, 5, 4, 3, 2, 3, 4, 5, 6, 7]; // Datos de ejemplo para el día
-        summaryData.average = data.datasets[0].data.reduce((a, b) => a + b, 0) / data.datasets[0].data.length; // Calculo del promedio
-        summaryData.highest = Math.max(...data.datasets[0].data); // Calculo de la más alta
-        summaryData.lowest = Math.min(...data.datasets[0].data); // Calculo de la más baja
+        data.datasets[0].data = [0, 0, 1, 2, 4, 5, 3, 6, 7, 5, 4, 3, 2, 4, 6, 5, 4, 3, 2, 3, 4, 5, 6, 7];
+        summaryData.average = data.datasets[0].data.reduce((a, b) => a + b, 0) / data.datasets[0].data.length;
+        summaryData.highest = Math.max(...data.datasets[0].data);
+        summaryData.lowest = Math.min(...data.datasets[0].data);
         break;
       default:
         break;
@@ -82,36 +73,15 @@ const SleepScreen = ({ initialSelectedTab = 'Día', initialSelectedDate = new Da
     Animated.stagger(100, animations).start();
   };
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    if (date <= new Date()) {
-      setSelectedDate(date);
-      hideDatePicker();
-    } else {
-      alert('La fecha seleccionada no puede ser futura.');
-      hideDatePicker();
-    }
-  };
-
   const handleTabChange = (tab) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setSelectedTab(tab);
-    if (tab !== 'Día') {
-      setSelectedDate(new Date());
-    }
   };
 
   const renderContent = () => {
     return (
       <View style={styles.chartContainer}>
-        <View style={styles.chartArea}>
+        <View style={[styles.chartArea, { borderColor: isDarkMode ? '#666666' : '#e0e0e0' }]}>
           {data.datasets[0].data.map((value, index) => {
             const animatedHeight = animationValues[index].interpolate({
               inputRange: [0, 1],
@@ -132,35 +102,32 @@ const SleepScreen = ({ initialSelectedTab = 'Día', initialSelectedDate = new Da
               />
             );
           })}
-          {/* Horizontal divider lines */}
           {Array.from({ length: 5 }).map((_, i) => (
-            <View key={i} style={[styles.horizontalLine, { bottom: i * 44 }]} />
+            <View key={i} style={[styles.horizontalLine, { bottom: i * 44, backgroundColor: isDarkMode ? '#444' : '#e0e0e0' }]} />
           ))}
-          {/* X axis labels */}
           <View style={styles.xAxisLabels}>
             {data.labels.map((label, index) => (
-              <Text key={index} style={styles.xAxisLabel}>{label}</Text>
+              <Text key={index} style={[styles.xAxisLabel, { color: isDarkMode ? '#ffffff' : '#000000' }]}>{label}</Text>
             ))}
           </View>
-          {/* Y axis labels */}
           <View style={styles.yAxisLabels}>
             {Array.from({ length: 6 }).map((_, i) => (
-              <Text key={i} style={styles.yAxisLabel}>{Math.round((Math.max(...data.datasets[0].data) / 5) * (5 - i))}</Text>
+              <Text key={i} style={[styles.yAxisLabel, { color: isDarkMode ? '#ffffff' : '#000000' }]}>{Math.round((Math.max(...data.datasets[0].data) / 5) * (5 - i))}</Text>
             ))}
           </View>
         </View>
         <View style={styles.divider}></View>
-        <View style={styles.summaryContainer}>
+        <View style={[styles.summaryContainer, { backgroundColor: isDarkMode ? '#333333' : '#eaf2f8' }]}>
           <Text style={styles.summaryValue}>{summaryData.average.toFixed(1)}</Text>
           <Text style={styles.summaryLabel}>Promedio</Text>
         </View>
         <View style={styles.statsContainer}>
-          <View style={styles.statsBox}>
+          <View style={[styles.statsBox, { backgroundColor: isDarkMode ? '#444444' : '#ecf0f1' }]}>
             <Icon name="arrow-up" size={24} color="#e74c3c" style={styles.icon} />
             <Text style={styles.statsValue}>{summaryData.highest.toFixed(1)}</Text>
             <Text style={styles.statsLabel}>Más alta</Text>
           </View>
-          <View style={styles.statsBox}>
+          <View style={[styles.statsBox, { backgroundColor: isDarkMode ? '#444444' : '#ecf0f1' }]}>
             <Icon name="arrow-down" size={24} color="#2ecc71" style={styles.icon} />
             <Text style={styles.statsValue}>{summaryData.lowest.toFixed(1)}</Text>
             <Text style={styles.statsLabel}>Más baja</Text>
@@ -171,66 +138,45 @@ const SleepScreen = ({ initialSelectedTab = 'Día', initialSelectedDate = new Da
   };
 
   return (
-    <ScrollView 
-      contentContainerStyle={styles.container} 
+    <ScrollView
+      contentContainerStyle={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     >
-      <View style={styles.sleepContainer}>
+      <View style={[styles.sleepContainer, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
         <View style={styles.tabsContainer}>
           <TouchableOpacity style={selectedTab === 'Mes' ? styles.activeTab : styles.tab} onPress={() => handleTabChange('Mes')}>
-            <Text style={selectedTab === 'Mes' ? styles.activeTabText : styles.tabText}>Mes</Text>
+            <Text style={selectedTab === 'Mes' ? [styles.activeTabText, { color: isDarkMode ? '#38c0c0' : '#00BFA5' }] : [styles.tabText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Mes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={selectedTab === 'Semana' ? styles.activeTab : styles.tab} onPress={() => handleTabChange('Semana')}>
-            <Text style={selectedTab === 'Semana' ? styles.activeTabText : styles.tabText}>Semana</Text>
+            <Text style={selectedTab === 'Semana' ? [styles.activeTabText, { color: isDarkMode ? '#38c0c0' : '#00BFA5' }] : [styles.tabText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Semana</Text>
           </TouchableOpacity>
-          <View style={styles.tabWithCalendar}>
-            <TouchableOpacity style={selectedTab === 'Día' ? styles.activeTab : styles.tab} onPress={() => handleTabChange('Día')}>
-              <Text style={selectedTab === 'Día' ? styles.activeTabText : styles.tabText}>Día</Text>
-            </TouchableOpacity>
-            {selectedTab === 'Día' ? (
-              <TouchableOpacity onPress={showDatePicker} style={styles.calendarButton}>
-                <Icon name="calendar-outline" size={25} color="#000" />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => handleTabChange('Día')}>
-                <Text style={styles.todayText}>Hoy</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+          <TouchableOpacity style={selectedTab === 'Día' ? styles.activeTab : styles.tab} onPress={() => handleTabChange('Día')}>
+            <Text style={selectedTab === 'Día' ? [styles.activeTabText, { color: isDarkMode ? '#38c0c0' : '#00BFA5' }] : [styles.tabText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Día</Text>
+          </TouchableOpacity>
         </View>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-          maximumDate={new Date()}
-        />
         <View style={styles.contentContainer}>
           {renderContent()}
         </View>
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Medición del Sueño</Text>
+      <TouchableOpacity style={[styles.menuItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={() => router.navigate('KnowledgeColumn')}>
+      <Icon name="analytics-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} />
+      <Text style={[styles.menuText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Análisis del sueño</Text>
+        <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.menuIcon} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.navigate('KnowledgeColumn')}>
-        <Icon name="book-outline" size={25} color="#000" />
-        <Text style={styles.menuText}>Columna de conocimiento</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.menuIcon} />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => setIsHistoryLogExpanded(!isHistoryLogExpanded)}>
-        <Icon name="document-text-outline" size={25} color="#000" />
-        <Text style={styles.menuText}>Registro de la historia</Text>
-        <Icon name={isHistoryLogExpanded ? "chevron-up-outline" : "chevron-forward-outline"} size={25} color="#000" style={styles.menuIcon} />
+      <TouchableOpacity style={[styles.menuItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={() => setIsHistoryLogExpanded(!isHistoryLogExpanded)}>
+        <Icon name="document-text-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} />
+        <Text style={[styles.menuText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Registro de la historia</Text>
+        <Icon name={isHistoryLogExpanded ? "chevron-up-outline" : "chevron-forward-outline"} size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.menuIcon} />
       </TouchableOpacity>
       {isHistoryLogExpanded && (
-        <View style={styles.historyContent}>
-          <Text>Contenido del registro de la historia...</Text>
+        <View style={[styles.historyContent, { backgroundColor: isDarkMode ? '#333333' : '#f9f9f9' }]}>
+          <Text style={{ color: isDarkMode ? '#ffffff' : '#000000' }}>Contenido del registro de la historia...</Text>
         </View>
       )}
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -239,7 +185,6 @@ const styles = StyleSheet.create({
   },
   sleepContainer: {
     alignItems: 'center',
-    backgroundColor: '#fff',
     padding: 15,
     borderRadius: 10,
     shadowColor: '#000',
@@ -264,34 +209,16 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderBottomWidth: 2,
-    borderBottomColor: '#00BFA5',
+    borderBottomColor: '#38c0c0',
     width: 70,
     alignItems: 'center',
   },
   tabText: {
-    color: '#000',
     fontSize: 16,
   },
   activeTabText: {
-    color: '#00BFA5',
     fontSize: 16,
-  },
-  tabWithCalendar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  calendarButton: {
-    marginLeft: 10,
-  },
-  todayText: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: '#00BFA5',
-  },
-  contentContainer: {
-    alignItems: 'center',
-    marginTop: 5,
-    width: '100%',
+    color:'#38c0c0',
   },
   chartContainer: {
     alignItems: 'center',
@@ -301,7 +228,6 @@ const styles = StyleSheet.create({
     height: 220,
     width: Dimensions.get('window').width - 120,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
     position: 'relative',
   },
   horizontalLine: {
@@ -309,7 +235,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 1,
-    backgroundColor: '#e0e0e0',
   },
   xAxisLabels: {
     position: 'absolute',
@@ -321,7 +246,6 @@ const styles = StyleSheet.create({
   },
   xAxisLabel: {
     fontSize: 12,
-    color: '#000',
   },
   yAxisLabels: {
     position: 'absolute',
@@ -332,20 +256,18 @@ const styles = StyleSheet.create({
   },
   yAxisLabel: {
     fontSize: 12,
-    color: '#000',
   },
   divider: {
     height: 1,
-    backgroundColor: '#e0e0e0',
     width: '100%',
     marginVertical: 30,
   },
   summaryContainer: {
     alignItems: 'center',
-    backgroundColor: '#eaf2f8',
     padding: 10,
     borderRadius: 10,
     width: '100%',
+    paddingHorizontal: 110,
   },
   summaryValue: {
     fontSize: 40,
@@ -363,7 +285,6 @@ const styles = StyleSheet.create({
   },
   statsBox: {
     alignItems: 'center',
-    backgroundColor: '#ecf0f1',
     padding: 10,
     borderRadius: 10,
     width: '40%',
@@ -378,50 +299,30 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#888888',
   },
-  button: {
-    backgroundColor: '#17a2b8',
-    paddingVertical: 15,
-    marginHorizontal: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   menuItem: {
     flexDirection: 'row',
-   	alignItems: 'center',
+    alignItems: 'center',
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    backgroundColor: '#fff',
     marginVertical: 5,
     borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   menuText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#000',
     flex: 1,
   },
   menuIcon: {
     marginLeft: 'auto',
   },
-  chartStyle: {
-    marginVertical: 10,
-    borderRadius: 10,
-  },
-  calendarText: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: '#000',
-  },
   historyContent: {
     padding: 15,
-    backgroundColor: '#f9f9f9',
     borderRadius: 10,
     marginVertical: 10,
   },

@@ -1,25 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router';
 
-
 export default function Health() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
 
   const navigateToFriendScreen = () => {
     router.navigate('FriendScreen');
   };
 
   return (
-    <View style={styles.container}>      
-      <TouchableOpacity style={styles.newFriend} onPress={navigateToFriendScreen}>
-        <Text style={styles.newFriendText}>Nuevo amigo</Text>
-        <Icon name="chevron-forward" size={24} color="black" />
+    <View style={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}>      
+      <TouchableOpacity style={[styles.newFriend, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToFriendScreen}>
+        <Text style={[styles.newFriendText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Nuevo amigo</Text>
+        <Icon name="chevron-forward" size={24} color={isDarkMode ? '#ffffff' : '#000000'} />
       </TouchableOpacity>
 
       <View style={styles.noFriends}>
-        <Icon name="person-outline" size={48} color="grey" />
-        <Text style={styles.noFriendsText}>No se agregaron amigos</Text>
+        <Icon name="person-outline" size={48} color={isDarkMode ? 'lightgrey' : 'grey'} />
+        <Text style={[styles.noFriendsText, { color: isDarkMode ? 'lightgrey' : 'grey' }]}>No se agregarón amigos</Text>
       </View>
     </View>
   );
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    backgroundColor: '#fff',
     marginVertical: 5,
     borderRadius: 10,
     shadowColor: '#000',
@@ -59,8 +59,6 @@ const styles = StyleSheet.create({
   },
   noFriendsText: {
     fontSize: 18,
-    color: 'grey',
     marginTop: 10,
   },
 });
-

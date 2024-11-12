@@ -1,8 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useColorScheme } from 'react-native';
 
 export default function HelpScreen() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+
   const categories = [
     { id: '1', name: 'Account Settings' },
     { id: '2', name: 'Device function' },
@@ -19,36 +23,37 @@ export default function HelpScreen() {
   ];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchContainer}>
+    <View style={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}>
+      <View style={[styles.searchContainer, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
         <TextInput 
-          style={styles.searchInput}
+          style={[styles.searchInput, { color: isDarkMode ? '#ffffff' : '#000000' }]}
           placeholder="Buscar"
+          placeholderTextColor={isDarkMode ? '#888888' : '#000000'}
         />
-        <Icon name="search-outline" size={20} color="#000" />
+        <Icon name="search-outline" size={20} color={isDarkMode ? '#ffffff' : '#000000'} />
       </View>
 
       <View style={styles.categoriesContainer}>
         {categories.map(category => (
-          <TouchableOpacity key={category.id} style={styles.categoryItem}>
-            <View style={styles.categoryIconPlaceholder} />
-            <Text style={styles.categoryText}>{category.name}</Text>
+          <TouchableOpacity key={category.id} style={[styles.categoryItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+            <View style={[styles.categoryIconPlaceholder, { backgroundColor: isDarkMode ? '#f67b4d' : '#f67b4d' }]} />
+            <Text style={[styles.categoryText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>{category.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
       <View style={styles.commonProblemsContainer}>
-        <Text style={styles.commonProblemsTitle}>problema comun</Text>
+        <Text style={[styles.commonProblemsTitle, { color: isDarkMode ? '#ffffff' : '#000000' }]}>problema comun</Text>
         {commonProblems.map(problem => (
-          <TouchableOpacity key={problem.id} style={styles.problemItem}>
-            <Text style={styles.problemText}>{problem.title}</Text>
-            <Icon name="chevron-forward-outline" size={20} color="#000" />
+          <TouchableOpacity key={problem.id} style={[styles.problemItem, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+            <Text style={[styles.problemText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>{problem.title}</Text>
+            <Icon name="chevron-forward-outline" size={20} color={isDarkMode ? '#ffffff' : '#000000'} />
           </TouchableOpacity>
         ))}
       </View>
 
       <TouchableOpacity style={styles.feedbackButton}>
-        <Icon name="chatbubble-outline" size={20} color="#fff" />
+        <Icon name="chatbubble-outline" size={20} color="#ffffff" />
         <Text style={styles.feedbackText}>Comentario</Text>
       </TouchableOpacity>
     </View>
@@ -58,13 +63,11 @@ export default function HelpScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
     paddingHorizontal: 16,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
     borderRadius: 10,
     paddingHorizontal: 10,
     marginTop: 16,
@@ -88,7 +91,6 @@ const styles = StyleSheet.create({
   categoryItem: {
     width: '48%',
     alignItems: 'center',
-    backgroundColor: '#fff',
     borderRadius: 10,
     paddingVertical: 20,
     marginBottom: 10,
@@ -97,11 +99,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
   },
   categoryIconPlaceholder: {
     width: 50,
     height: 50,
-    backgroundColor: '#f67b4d', // Placeholder color similar to the icon color in the image
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -121,7 +124,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 16,
@@ -131,16 +133,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
   },
   problemText: {
     fontSize: 14,
-    color: '#000',
   },
   feedbackButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#32cd32', // Green color similar to the comment button in the image
+    backgroundColor: '#32cd32',
     borderRadius: 20,
     paddingVertical: 10,
     marginBottom: 20,
@@ -156,4 +159,3 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
-

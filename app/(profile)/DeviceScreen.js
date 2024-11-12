@@ -1,61 +1,86 @@
 import React, { useState, useCallback } from 'react';
 import Modal from 'react-native-modal';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, BackHandler, useColorScheme } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router';
 import ThemeScreen from './ThemeScreen';
-import { debounce } from 'lodash'; 
+import { debounce } from 'lodash';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function DeviceScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
 
-  const toggleModal = useCallback(debounce(() => {
-    setModalVisible(prev => !prev);
-  }, 300), []);
+  // Función para alternar el modal con debounce para evitar múltiples clics
+  const toggleModal = useCallback(
+    debounce(() => {
+      setModalVisible((prev) => !prev);
+    }, 300),
+    []
+  );
+
+  // Cierra el modal si el usuario presiona el botón de regreso
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (isModalVisible) {
+          setModalVisible(false);
+          return true;
+        }
+        return false;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [isModalVisible])
+  );
 
   const navigateToHealthSettingsScreen = () => {
     router.navigate('HealthSettingsScreen');
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff' }]}>
       <View style={styles.deviceInfo}>
-        <Icon name="watch-outline" size={50} color="#aaa" />
-        <Text style={styles.deviceName}>E88E89 BDA7</Text>
+        <Icon name="watch-outline" size={50} color={isDarkMode ? '#888888' : '#aaa'} />
+        <Text style={[styles.deviceName, { color: isDarkMode ? '#ffffff' : '#000000' }]}>E88E89 BDA7</Text>
         <View style={styles.batteryContainer}>
           <Icon name="battery-half-outline" size={20} color="#4CAF50" />
-          <Text style={styles.batteryText}>71%</Text>
+          <Text style={[styles.batteryText, { color: isDarkMode ? '#4CAF50' : '#4CAF50' }]}>71%</Text>
         </View>
       </View>
 
-      <TouchableOpacity style={styles.option} onPress={toggleModal}>
-        <Text style={styles.optionText}>Tema</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={toggleModal}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Tema</Text>
+        <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option} onPress={navigateToHealthSettingsScreen}>
-        <Text style={styles.optionText}>Configuraciones de salud</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]} onPress={navigateToHealthSettingsScreen}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Configuración de salud</Text>
+        <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Configuración anti-pérdida</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Configuración anti-pérdida</Text>
+        <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Empuje de información</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Empuje de información</Text>
+        <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Preparar</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Preparar</Text>
+        <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Acerca de este dispositivo</Text>
-        <Icon name="chevron-forward-outline" size={25} color="#000" style={styles.optionIcon} />
+      <TouchableOpacity style={[styles.option, { backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff' }]}>
+        <Text style={[styles.optionText, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Acerca de este dispositivo</Text>
+        <Icon name="chevron-forward-outline" size={25} color={isDarkMode ? '#ffffff' : '#000000'} style={styles.optionIcon} />
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.disconnectButton}>
@@ -66,12 +91,13 @@ export default function DeviceScreen() {
         isVisible={isModalVisible}
         onBackdropPress={toggleModal}
         onSwipeComplete={toggleModal}
+        onBackButtonPress={toggleModal}
         swipeDirection="down"
         style={styles.modal}
         animationIn="slideInUp"
         animationOut="slideOutDown"
-        animationInTiming={300}  // Acelerando la animación de apertura
-        animationOutTiming={300} // Acelerando la animación de cierre
+        animationInTiming={300}
+        animationOutTiming={300}
         useNativeDriverForBackdrop={true}
       >
         <ThemeScreen toggleModal={toggleModal} />
@@ -102,7 +128,6 @@ const styles = StyleSheet.create({
   batteryText: {
     marginLeft: 5,
     fontSize: 16,
-    color: '#4CAF50',
   },
   option: {
     flexDirection: 'row',
@@ -110,7 +135,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    backgroundColor: '#fff',
     marginVertical: 5,
     borderRadius: 10,
     shadowColor: '#000',
@@ -122,7 +146,6 @@ const styles = StyleSheet.create({
   optionText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#000',
     flex: 1,
   },
   optionIcon: {
@@ -143,7 +166,7 @@ const styles = StyleSheet.create({
   },
   disconnectText: {
     fontSize: 16,
-    color: '#fff',
+    color: '#ffffff',
   },
   modal: {
     justifyContent: 'flex-end',

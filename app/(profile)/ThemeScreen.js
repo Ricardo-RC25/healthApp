@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Animated, PanResponder, FlatList } from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import { useColorScheme } from 'react-native';
 
 const themes = [
   { id: '1', name: 'Tema 1' },
@@ -9,6 +10,9 @@ const themes = [
 ];
 
 export default function ThemeScreen({ toggleModal }) {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+
   const [selectedTheme, setSelectedTheme] = useState(null);
   const windowHeight = Dimensions.get('window').height;
   const [modalHeight, setModalHeight] = useState(windowHeight / 2);
@@ -42,16 +46,17 @@ export default function ThemeScreen({ toggleModal }) {
           value={item.id}
           status={selectedTheme === item.id ? 'checked' : 'unchecked'}
           onPress={() => handleSelectTheme(item.id)}
+          color={isDarkMode ? '#34C759' : '#6200ea'} // Color de radio ajustado para ambos modos
         />
-        <Text style={styles.themeText}>{item.name}</Text>
+        <Text style={[styles.themeText, { color: isDarkMode ? '#ffffff' : '#333333' }]}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
 
   return (
-    <View style={[styles.container, { height: modalHeight, top: modalTop }]}>
-      <View style={styles.header}>
-        <Text style={styles.modalTitle}>Selecciona un tema</Text>
+    <View style={[styles.container, { backgroundColor: isDarkMode ? '#121212' : '#ffffff', height: modalHeight, top: modalTop }]}>
+      <View style={[styles.header, { borderBottomColor: isDarkMode ? '#333333' : '#eeeeee' }]}>
+        <Text style={[styles.modalTitle, { color: isDarkMode ? '#ffffff' : '#000000' }]}>Selecciona un tema</Text>
       </View>
       <FlatList
         data={themes}
@@ -60,7 +65,7 @@ export default function ThemeScreen({ toggleModal }) {
         style={styles.themeList}
       />
       <Animated.View
-        style={[styles.resizer, { transform: [{ translateY: pan }] }]}
+        style={[styles.resizer, { transform: [{ translateY: pan }], backgroundColor: isDarkMode ? '#888888' : '#cccccc' }]}
         {...panResponder.panHandlers}
       />
     </View>
@@ -69,7 +74,6 @@ export default function ThemeScreen({ toggleModal }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: 'center',
@@ -90,7 +94,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
   },
   modalTitle: {
     fontSize: 18,
@@ -115,7 +118,6 @@ const styles = StyleSheet.create({
   },
   themeText: {
     fontSize: 16,
-    color: '#333',
     marginLeft: 10,
   },
   resizer: {
@@ -125,7 +127,6 @@ const styles = StyleSheet.create({
     marginLeft: -25,
     width: 50,
     height: 5,
-    backgroundColor: '#ccc',
     borderRadius: 2.5,
   },
 });
